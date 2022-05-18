@@ -5,8 +5,10 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-function Hello() {
-  return <h1>Hello world.</h1>;
+class Hello extends React.Component {
+  render() {
+    return <h1>Hello world.</h1>;
+  }
 }
 const el =<Hello/>
 root.render(el)
