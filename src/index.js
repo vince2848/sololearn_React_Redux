@@ -5,10 +5,25 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-function Hello(props) {
-  return <h1>Hello, {props.name}</h1>;
+class Counter extends React.Component {
+  state = {
+    counter: 0
+  }
+
+  increment = () => {
+    this.setState({
+      counter: this.state.counter+1
+    });
+  }
+
+  render() {
+    return <div>
+      <p>{this.state.counter}</p>
+      <button onClick={this.increment}>Increment</button>
+    </div>;
+  }
 }
-const el =<Hello name="David"/>
+const el =<Counter/>
 root.render(el)
 
 // If you want to start measuring performance in your app, pass a function
