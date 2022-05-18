@@ -5,12 +5,10 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-class Hello extends React.Component {
-  render() {
-    return <h1>Hello world.</h1>;
-  }
+function Hello(props) {
+  return <h1>Hello, {props.name}</h1>;
 }
-const el =<Hello/>
+const el =<Hello name="David"/>
 root.render(el)
 
 // If you want to start measuring performance in your app, pass a function
