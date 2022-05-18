@@ -4,15 +4,12 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-let counter =0;
 
-function show() {
-  counter++;
-  const el = <p>{counter}</p>
-  root.render(el);
+function Hello() {
+  return <h1>Hello world.</h1>;
 }
-
-setInterval(show, 1000);
+const el =<Hello/>
+root.render(el)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
