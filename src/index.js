@@ -1,29 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-class Counter extends React.Component {
-  state = {
-    counter: 0
-  }
+function Hello() {
+  const [name, setName] = useState("David");
 
-  increment = () => {
-    this.setState({
-      counter: this.state.counter+1
-    });
-  }
-
-  render() {
-    return <div>
-      <p>{this.state.counter}</p>
-      <button onClick={this.increment}>Increment</button>
-    </div>;
-  }
+  return <h1>Hello {name}.</h1>
 }
-const el =<Counter/>
+
+
+const el =<Hello/>
 root.render(el)
 
 // If you want to start measuring performance in your app, pass a function
