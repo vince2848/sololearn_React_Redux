@@ -5,14 +5,23 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-function Hello() {
-  const [name, setName] = useState("David");
+function Counter() {
+  const [counter, setCounter] = useState(0);
 
-  return <h1>Hello {name}.</h1>
-}
+  function increment() {
+    setCounter(counter+1);
+  }
+
+  return <div>
+  <p>{counter}</p>
+  <button onClick={increment}>
+    Increment
+  </button>
+  </div>;
+} 
 
 
-const el =<Hello/>
+const el =<Counter/>
 root.render(el)
 
 // If you want to start measuring performance in your app, pass a function
