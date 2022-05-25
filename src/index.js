@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-function Counter() {
-  const [counter, setCounter] = useState(0);
-
-  function increment() {
-    setCounter(counter+1);
+class Counter extends React.Component {
+  state = {
+    counter: 0
   }
 
-  return <div>
-  <p>{counter}</p>
-  <button onClick={increment}>
-    Increment
-  </button>
-  </div>;
-} 
+  increment = () => {
+    this.setState({
+      counter: this.state.counter+1
+    });
+  }
 
+  componentDidMount() {
+    this.setState({counter: 42});
+  }
 
+  render() {
+    return <div>
+      <p>{this.state.counter}</p>
+      <button onClick={this.increment}>Increment</button>
+    </div>;
+  }
+}
 const el =<Counter/>
 root.render(el)
 
