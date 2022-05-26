@@ -5,15 +5,45 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const arr = ["A", "B", "C"]
-function MyList(props) {
+const contacts = ["James Smith", "Thomas Anderson", "Bruce Wayne"];
+
+function AddPersonForm() {
+  const [ person, setPerson ] = useState("");
+
+  function handleChange(e) {
+    setPerson(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text"
+        placeholder="Add new contact"
+        onChange={handleChange}
+        value={person} />
+        <button type="submit">Add</button>
+    </form>
+  );
+}
+
+function PeopleList(props) {
   const arr = props.data;
-  const listItems = arr.map((val) => <li>{val}</li>);
+  const listItems = arr.map((val, index) =>
+  <li key={index}>{val}</li>
+  );
+
   return <ul>{listItems}</ul>;
 }
 
 
-const el =<MyList data={arr} />
+const el = (
+  <div>
+    <AddPersonForm />
+    <PeopleList data={contacts} />
+  </div>
+)
 root.render(el)
 
 // If you want to start measuring performance in your app, pass a function
