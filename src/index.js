@@ -7,7 +7,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const contacts = ["James Smith", "Thomas Anderson", "Bruce Wayne"];
 
-function AddPersonForm() {
+function AddPersonForm(props) {
   const [ person, setPerson ] = useState("");
 
   function handleChange(e) {
@@ -15,6 +15,8 @@ function AddPersonForm() {
   }
 
   function handleSubmit(e) {
+    props.handleSubmit(person);
+    setPerson('');
     e.preventDefault();
   }
   return (
@@ -37,11 +39,25 @@ function PeopleList(props) {
   return <ul>{listItems}</ul>;
 }
 
+function ContactManager(props) {
+  const [contacts, setContacts] = useState(props.data);
+
+  function addPerson(name) {
+    setContacts( [...contacts, name ] )
+  }
+
+  return (
+    <div>
+      <AddPersonForm handleSubmit={addPerson} />
+      <PeopleList data={contacts} />
+    </div>
+  );
+}
+
 
 const el = (
   <div>
-    <AddPersonForm />
-    <PeopleList data={contacts} />
+    <ContactManager data={contacts} />
   </div>
 )
 root.render(el)
