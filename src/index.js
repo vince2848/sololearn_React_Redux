@@ -1,28 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { connect, Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { connect, Provider } from 'react-redux'
 import { createStore } from 'redux';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const initialState = {
-  count: 0
+  contacts: ["James Smith", "Thomas Anderson", "Bruce Wayne"]
 };
 
-function incrementCounter(num) {
+function addPerson(person) {
   return {
-    type: 'INCREMENT',
-    num: num
+    type: 'ADD_PERSON',
+    data: person
   }
 };
 
 function reducer(state = initialState, action) {
   switch(action.type) {
-    case 'INCREMENT':
-      return {count: state.count + action.num};
+    case "ADD_PERSON":
+      return {...state,
+        contacts: [...state.contacts, action.data]};
     default:
       return state;
   }
@@ -30,34 +29,55 @@ function reducer(state = initialState, action) {
 
 function mapStateToProps(state) {
   return {
-    count: state.count
+    contacts: state.contacts
   };
 }
 
 const mapDispatchToProps = {
-  incrementCounter
+  addPerson
 }
 
-function Counter(props) {
-  function handleClick() {
-    props.incrementCounter(1);
+function AddPersonForm(props) {
+  const [ person, setPerson ] = useState("");
+
+  function handleChange(e) {
+    setPerson(e.target.value);
   }
 
-  return <div>
-    <p>{props.count}</p>
-    <button onClick={handleClick}>Increment</button>
-  </div>;
+  function handleSubmit(e) {
+    if(person !== "") {
+      props.addPerson(person);
+      setPerson('');
+    }
+    e.preventDefault();
+  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text"
+        placeholder="Add new contact"
+        onChange={handleChange}
+        value={person} />
+        <button type="submit">Add</button>
+    </form>
+  );
 }
 
-const store = createStore(reducer);
+function PeopleList(props) {
+  const arr = props.contacts;
+  const listItems = arr.map((val, index) =>
+  <li key={index}>{val}</li>
+  );
 
-const DisplayCounter = connect(mapStateToProps, mapDispatchToProps)(Counter)
+  return <ul>{listItems}</ul>;
+}
 
-
-const el =<Provider store={store}>
-  <DisplayCounter />
-</Provider>
+const store = createStore(reducer)
+const DisplayedPeolpeList = connect(mapStateToProps)(PeopleList)
+const Form = connect(null, mapDispatchToProps)(AddPersonForm)
+const el = (
+  <Provider store={store}>
+    <Form />
+    <DisplayedPeolpeList />
+  </Provider>
+)
 root.render(el)
-
-
-
