@@ -1,68 +1,63 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { connect, Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { createStore } from 'redux';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const contacts = ["James Smith", "Thomas Anderson", "Bruce Wayne"];
+const initialState = {
+  count: 0
+};
 
-function AddPersonForm(props) {
-  const [ person, setPerson ] = useState("");
-
-  function handleChange(e) {
-    setPerson(e.target.value);
+function incrementCounter(num) {
+  return {
+    type: 'INCREMENT',
+    num: num
   }
+};
 
-  function handleSubmit(e) {
-    props.handleSubmit(person);
-    setPerson('');
-    e.preventDefault();
+function reducer(state = initialState, action) {
+  switch(action.type) {
+    case 'INCREMENT':
+      return {count: state.count + action.num};
+    default:
+      return state;
   }
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="text"
-        placeholder="Add new contact"
-        onChange={handleChange}
-        value={person} />
-        <button type="submit">Add</button>
-    </form>
-  );
 }
 
-function PeopleList(props) {
-  const arr = props.data;
-  const listItems = arr.map((val, index) =>
-  <li key={index}>{val}</li>
-  );
-
-  return <ul>{listItems}</ul>;
+function mapStateToProps(state) {
+  return {
+    count: state.count
+  };
 }
 
-function ContactManager(props) {
-  const [contacts, setContacts] = useState(props.data);
+const mapDispatchToProps = {
+  incrementCounter
+}
 
-  function addPerson(name) {
-    setContacts( [...contacts, name ] )
+function Counter(props) {
+  function handleClick() {
+    props.incrementCounter(1);
   }
 
-  return (
-    <div>
-      <AddPersonForm handleSubmit={addPerson} />
-      <PeopleList data={contacts} />
-    </div>
-  );
+  return <div>
+    <p>{props.count}</p>
+    <button onClick={handleClick}>Increment</button>
+  </div>;
 }
 
+const store = createStore(reducer);
 
-const el = (
-  <div>
-    <ContactManager data={contacts} />
-  </div>
-)
+const DisplayCounter = connect(mapStateToProps, mapDispatchToProps)(Counter)
+
+
+const el =<Provider store={store}>
+  <DisplayCounter />
+</Provider>
 root.render(el)
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+
