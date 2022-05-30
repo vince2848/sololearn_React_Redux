@@ -1,7 +1,7 @@
+import { configureStore } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { connect, Provider } from 'react-redux'
-import { createStore } from 'redux';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -71,7 +71,7 @@ function PeopleList(props) {
   return <ul>{listItems}</ul>;
 }
 
-const store = createStore(reducer)
+const store = configureStore({ reducer: reducer})
 const DisplayedPeolpeList = connect(mapStateToProps)(PeopleList)
 const Form = connect(null, mapDispatchToProps)(AddPersonForm)
 const el = (
