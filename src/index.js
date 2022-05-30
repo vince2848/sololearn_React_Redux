@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { connect, Provider } from 'react-redux'
@@ -10,28 +10,21 @@ const initialState = {
   contacts: ["James Smith", "Thomas Anderson", "Bruce Wayne"]
 };
 
-function addPerson(person) {
-  return {
-    type: 'ADD_PERSON',
-    data: person
-  }
-};
-
-function reducer(state = initialState, action) {
-  switch(action.type) {
-    case "ADD_PERSON":
-      return {...state,
-        contacts: [...state.contacts, action.data]};
-    default:
-      return state;
-  }
-}
+const contactSlice = createSlice({
+  name: 'ADD_PERSON',
+  initialState: initialState,
+  reducers: {
+    addPerson(state, person) {state.contacts.push(person.payload)}
+  },
+})
 
 function mapStateToProps(state) {
   return {
     contacts: state.contacts
   };
 }
+
+const addPerson = contactSlice.actions.addPerson;
 
 const mapDispatchToProps = {
   addPerson
@@ -71,7 +64,7 @@ function PeopleList(props) {
   return <ul>{listItems}</ul>;
 }
 
-const store = configureStore({ reducer: reducer})
+const store = configureStore({ reducer: contactSlice.reducer})
 const DisplayedPeolpeList = connect(mapStateToProps)(PeopleList)
 const Form = connect(null, mapDispatchToProps)(AddPersonForm)
 const el = (
