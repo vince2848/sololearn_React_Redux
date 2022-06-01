@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { connect, Provider } from 'react-redux'
 import './index.css';
+import PeopleList from './components/PeopleList';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -55,14 +56,6 @@ function AddPersonForm(props) {
   );
 }
 
-function PeopleList(props) {
-  const arr = props.contacts;
-  const listItems = arr.map((val, index) =>
-  <li key={index}>{val}</li>
-  );
-
-  return <ul>{listItems}</ul>;
-}
 
 const store = configureStore({ reducer: contactSlice.reducer})
 const DisplayedPeolpeList = connect(mapStateToProps)(PeopleList)
