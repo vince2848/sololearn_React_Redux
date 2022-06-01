@@ -1,4 +1,4 @@
-
+import { connect } from "react-redux";
 function PeopleList(props) {
     const arr = props.contacts;
     const listItems = arr.map((val, index) =>
@@ -7,5 +7,10 @@ function PeopleList(props) {
   
     return <ul>{listItems}</ul>;
   }
+  function mapStateToProps(state) {
+    return {
+      contacts: state.contacts
+    };
+  }
 
-  export default PeopleList
+ export default connect(mapStateToProps)(PeopleList)
